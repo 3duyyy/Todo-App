@@ -1,17 +1,22 @@
 import React, { useState } from "react";
 import "./Sidebar.css";
 import PropTypes from "prop-types";
+import { CATEGORY_ITEMS } from "./constants";
+import { useAppContext } from "../context/AppProvider";
 
-const Sidebar = (props) => {
-  const data = props.todoItem;
+const Sidebar = () => {
+  const { activeTodoItem, handleTodoItemChange, setShowSideBar } =
+    useAppContext();
+  const data = activeTodoItem;
   const [name, setName] = useState(data.name);
   const [isImportant, setIsImportant] = useState(data.isImportant);
   const [isCompleted, setIsCompleted] = useState(data.isCompleted);
+  const [category, setCategory] = useState(data.category);
 
   const handleSave = () => {
-    const newTodo = { ...data, name, isImportant, isCompleted };
-    props.handleTodoItemChange(newTodo);
-    props.setShowSideBar(false);
+    const newTodo = { ...data, name, isImportant, isCompleted, category };
+    handleTodoItemChange(newTodo);
+    setShowSideBar(false);
   };
 
   return (
@@ -33,11 +38,13 @@ const Sidebar = (props) => {
           className="sb-form-field"
           style={{ flexDirection: "row", gap: 10, alignItems: "center" }}
         >
-          <label htmlFor="sb-name">Is Important</label>
+          <label htmlFor="sb-important" style={{ userSelect: "none" }}>
+            Is Important
+          </label>
           <input
             type="checkbox"
-            name="name"
-            id="sb-name"
+            name="important"
+            id="sb-important"
             checked={isImportant}
             onChange={() => {
               setIsImportant(!isImportant);
@@ -46,30 +53,59 @@ const Sidebar = (props) => {
         </div>
         <div
           className="sb-form-field"
-          style={{ flexDirection: "row", gap: 10, alignItems: "center" }}
+          style={{
+            flexDirection: "row",
+            gap: 10,
+            alignItems: "center",
+          }}
         >
-          <label htmlFor="sb-name">Is Completed</label>
+          <label htmlFor="sb-completed" style={{ userSelect: "none" }}>
+            Is Completed
+          </label>
           <input
             type="checkbox"
-            name="name"
-            id="sb-name"
+            name="completed"
+            id="sb-completed"
             checked={isCompleted}
             onChange={() => {
               setIsCompleted(!isCompleted);
             }}
           />
         </div>
+        <div className="sb-form-field">
+          <label htmlFor="sb-category">Category</label>
+          <select
+            id="sb-category"
+            value={category}
+            onChange={(e) => {
+              setCategory(e.target.value);
+            }}
+          >
+            {CATEGORY_ITEMS.map((category) => {
+              return (
+                <option value={category.id} key={category.id}>
+                  {category.label}
+                </option>
+              );
+            })}
+          </select>
+        </div>
       </form>
       <div className="sb-footer">
         <button onClick={handleSave}>Save</button>
-        <button onClick={() => props.setShowSideBar(false)}>Cancel</button>
+        <button onClick={() => setShowSideBar(false)}>Cancel</button>
       </div>
     </div>
   );
 };
 
 Sidebar.propTypes = {
-  todoItem: PropTypes.any,
+  todoItem: PropTypes.shape({
+    name: PropTypes.string,
+    isImportant: PropTypes.bool,
+    isCompleted: PropTypes.bool,
+    category: PropTypes.string,
+  }),
   handleTodoItemChange: PropTypes.func,
   setShowSideBar: PropTypes.func,
 };
