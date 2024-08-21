@@ -9,7 +9,13 @@
 .main-content {
   flex: 2;
   background: #f0f0f0;
+
   padding: 30px;
+  margin: 10px 20px;
+  margin-left: 40px;
+  border-radius: 15px;
+
+  min-height: 97vh;
 }
 
 .task-input,

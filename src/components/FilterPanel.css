@@ -1,9 +1,16 @@
 .filter-panel {
   background: #fff;
+  margin-top: 10px;
+  margin-left: 5px;
 }
 
 .filter-search {
   width: 100%;
+  min-height: 20px;
+
+  margin-bottom: 10px;
+  padding: 5px;
+  border-radius: 6px;
 }
 
 .filter-container {
@@ -26,4 +33,15 @@
 .filter-item.selected {
   background: #0f548c;
   color: #fff;
+}
+
+.filter-name p {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.filter-count {
+  font-size: 22px;
+  font-weight: 550;
 }

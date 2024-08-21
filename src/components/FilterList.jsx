@@ -65,7 +65,7 @@ const FilterList = (props) => {
               <img src={filterItem.iconPath} alt="" />
               <p>{filterItem.label}</p>
             </div>
-            <p>{countByFilterType[filterItem.id]}</p>
+            <p className="filter-count">{countByFilterType[filterItem.id]}</p>
           </div>
         );
       })}
